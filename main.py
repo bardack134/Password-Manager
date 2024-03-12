@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter.ttk import Notebook
 TEAL="#76ABAE"
+BEIGE="#F9E8C9"
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
@@ -22,7 +23,7 @@ notebook=Notebook(window)
 notebook.pack(padx = 5, pady = 5, expand = True)
 
 #frame de mi primera tab, creo el frame en mi "Notebook"
-frame1=Frame(notebook,   padx=20, pady=20)
+frame1=Frame(notebook,   padx=50, pady=50)
 #Empaqueto 'frame1' para que se expanda y llene todo el espacio disponible
 frame1.pack(fill= BOTH, expand=True)
 
@@ -51,27 +52,30 @@ imagen=canvas.create_image(100, 100, image=filename)
 
 #TODO: CREANDO DEMAS ELEMTOS DE NUESTRA APP "LABELS WIDGET, ENTRY WIDGET" 
 #labels "website, email, password"
-website_label=Label(frame1, text='Website', pady=5, font=('helvetica', 12))
+website_label=Label(frame1, text='Website:', pady=5, font=('helvetica', 12))
 website_label.grid(row=1, column=0)
 
-Email_label=Label(frame1, text='Email/Username', pady=5, font=('helvetica', 12))
+Email_label=Label(frame1, text='Email/Username:', pady=5, font=('helvetica', 12))
 Email_label.grid(row=2, column=0)
 
-password_label=Label(frame1, text='Password', pady=5, font=('helvetica', 12))
+password_label=Label(frame1, text='Password:', pady=5,  font=('helvetica', 12))
 password_label.grid(row=3, column=0)
 
 #entry widgets para cada label
-website_entry=Entry(frame1, width=35, relief=SOLID)
+website_entry=Entry(frame1, width=50, relief=SOLID)
 website_entry.grid(row=1, column=1, columnspan=2)
 
-email_entry=Entry(frame1, width=35, relief=SOLID)
+email_entry=Entry(frame1, width=50, relief=SOLID)
 email_entry.grid(row=2, column=1, columnspan=2)
 
-password_entry=Entry(frame1, width=21, relief=SOLID)
+password_entry=Entry(frame1, width=32, relief=SOLID)
 password_entry.grid(row=3, column=1)
 
-#Boton generate password
-generate_password_button=Button(frame1, text='Generate Password', relief=GROOVE, bg=TEAL)
+#Boton generate password y add
+generate_password_button=Button(frame1, text='Generate Password', relief=GROOVE, bg=BEIGE)
 generate_password_button.grid(row=3, column=2)
+
+add_button=Button(frame1, text='Add', width=43, relief=GROOVE, bg="white")
+add_button.grid(row=4, column=1, columnspan=2)
 
 window.mainloop()
