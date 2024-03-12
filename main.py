@@ -23,7 +23,7 @@ notebook=Notebook(window)
 notebook.pack(padx = 5, pady = 5, expand = True)
 
 #frame de mi primera tab, creo el frame en mi "Notebook"
-frame1=Frame(notebook,   padx=50, pady=50)
+frame1=Frame(notebook,   padx=50, pady=50,  bg="white")
 #Empaqueto 'frame1' para que se expanda y llene todo el espacio disponible
 frame1.pack(fill= BOTH, expand=True)
 
@@ -40,7 +40,8 @@ notebook.add(frame2, text = "Window 2")
 
 
 #TODO: #CREAMOS AREA RECTANGULAR  EN NUESTRO 'FRAME1' CONOCIDA COMO 'CANVAS' PARA PONER NUESTRA FOTO ALLI 
-canvas=Canvas(frame1, width=200, height=200)
+#highlightthickness remove the light grey border around my Canvas widget?
+canvas=Canvas(frame1, width=200, height=200,  bg="white",  highlightthickness=0)
 canvas.grid(row=0, column=1)
 
 #cargando imagen
@@ -52,21 +53,25 @@ imagen=canvas.create_image(100, 100, image=filename)
 
 #TODO: CREANDO DEMAS ELEMTOS DE NUESTRA APP "LABELS WIDGET, ENTRY WIDGET" 
 #labels "website, email, password"
-website_label=Label(frame1, text='Website:', pady=5, font=('helvetica', 12))
+website_label=Label(frame1, text='Website:',  bg="white", pady=5, font=('helvetica', 12))
 website_label.grid(row=1, column=0)
 
-Email_label=Label(frame1, text='Email/Username:', pady=5, font=('helvetica', 12))
+Email_label=Label(frame1, text='Email/Username:',  bg="white", pady=5, font=('helvetica', 12))
 Email_label.grid(row=2, column=0)
 
-password_label=Label(frame1, text='Password:', pady=5,  font=('helvetica', 12))
+password_label=Label(frame1, text='Password:',  bg="white", pady=5,  font=('helvetica', 12))
 password_label.grid(row=3, column=0)
 
 #entry widgets para cada label
 website_entry=Entry(frame1, width=50, relief=SOLID)
 website_entry.grid(row=1, column=1, columnspan=2)
+#establesiendo el foco en nuestro website_entry, es decir al arrancar la app, el mause aparece inmediatamente ahi
+website_entry.focus()
 
 email_entry=Entry(frame1, width=50, relief=SOLID)
 email_entry.grid(row=2, column=1, columnspan=2)
+#insertamos el sgt msj en el widget 'email_entry' para que se muestre apenas corre el programa
+email_entry.insert(0,'@gmail.com')
 
 password_entry=Entry(frame1, width=32, relief=SOLID)
 password_entry.grid(row=3, column=1)
