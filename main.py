@@ -10,24 +10,36 @@ BEIGE="#F9E8C9"
 #TODO: ALMACENAR LA INFORMACION INGRESADA POR EL USUARIO EN UN ARCHIVO TXT.file
 def save_data():
     # Obteniendo los datos ingresados por el usuario
-    website_data=website_var.get()
-    email_data=email_var.get()
-    password_data=password_var.get()
+    website_data=website_entry.get()
+    email_data=email_entry.get()
+    password_data=password_entry.get()
     
-    #abrimos el archivo donde vamos aguardar nuestras passwords, si el archivo no esta, se crea automaticamente
-    with open("data.txt", "a") as file:
-        # Creando una cadena de texto con los datos para guardar
-        data_to_Save=(website_data + " | " + email_data+ " | " + password_data)
-        file.write(data_to_Save + "\n")
+    #puedepasar que el usuario no ha ingresado informacion, miramos si el usuario ingreso o no informacion
+    if len(website_data)==0 or len(email_data)==0 or len(password_data)==0:
+        messagebox.showerror(title='opps', message="Please do not leave any fields empty")
+    
+    #es decir el usuario si ingreso informacion
+    else:
+        #preguntamos al usuario  si la informacion agregada es correcta
+        yes_or_not=messagebox.askyesno(title=website_data, message=f"Email:{email_data} \nPassword:{password_data} \n\nIs it ok to save?" )
+        
+        
+        if yes_or_not == True:
+            #abrimos el archivo donde vamos aguardar nuestras passwords, si el archivo no esta, se crea automaticamente
+            with open("data.txt", "a") as file:
+                # Creando una cadena de texto con los datos para guardar
+                data_to_Save=(website_data + " | " + email_data+ " | " + password_data)
+                file.write(data_to_Save + "\n")
 
-    # Borrando los datos ingresados en los campos de entrada
-    website_entry.delete(0, END)
-    password_entry.delete(0, END)
-    
-    #mensaje indicando al usuario que la informacion fue guardada con exito
-    messagebox.showinfo("showinfo", "Information added correctly" )
-    
-    
+            # Borrando los datos ingresados en los campos de entrada
+            website_entry.delete(0, END)
+            password_entry.delete(0, END)
+            
+            #mensaje indicando al usuario que la informacion fue guardada con exito
+            messagebox.showinfo("showinfo", "Information added correctly" )
+        
+        
+        
     
 # ---------------------------- UI SETUP ------------------------------- #
 #TODO: CONFIGURACION INICIAL DE LA VENTANA
@@ -87,23 +99,20 @@ password_label.grid(row=3, column=0)
 
 
 #VARIABLES DONDE SE ALMACENARA LOS DATOS INGRESADOS POR EL USUARIO
-#declaro variables string 'StringVar class' para guardar el nombre del website, email y password
-website_var=StringVar()
-email_var=StringVar()
-password_var=StringVar()
+
 
 #entry widgets para cada label
-website_entry=Entry(frame1, textvariable=website_var, width=50, relief=SOLID)
+website_entry=Entry(frame1,  width=50, relief=SOLID)
 website_entry.grid(row=1, column=1, columnspan=2)
 #establesiendo el foco en nuestro website_entry, es decir al arrancar la app, el mause aparece inmediatamente ahi
 website_entry.focus()
 
-email_entry=Entry(frame1, textvariable=email_var, width=50, relief=SOLID)
+email_entry=Entry(frame1,  width=50, relief=SOLID)
 email_entry.grid(row=2, column=1, columnspan=2)
 #insertamos el sgt msj en el widget 'email_entry' para que se muestre apenas corre el programa
 email_entry.insert(0,'@gmail.com')
 
-password_entry=Entry(frame1, textvariable=password_var, width=32, relief=SOLID)
+password_entry=Entry(frame1,  width=32, relief=SOLID)
 password_entry.grid(row=3, column=1)
 
 
