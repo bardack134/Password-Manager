@@ -18,7 +18,7 @@ def search_password():
         
         data_to_search = website_entry.get().lower()
         
-        
+        element_found=False
         for i in file_as_a_list:
             if data_to_search   in i:
 
@@ -34,10 +34,12 @@ def search_password():
                 information=f'Website:{website_name}\n Email:{email_name}\n Password:{password_name}'
                 
                 messagebox.showinfo("showinfo", information) 
-               
-            else:
-                messagebox.showinfo("showinfo", 'Element not found') 
-                
+
+                element_found=True
+        
+        if element_found==False:    
+            messagebox.showinfo("showinfo", 'Element not found') 
+                  
             
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 #TODO: CREAMOS FUNCION QUE CREARA NUESTRAS PASSWORDS AL OPRIMIR EL BOTON "generate password"
