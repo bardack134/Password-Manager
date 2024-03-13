@@ -1,11 +1,21 @@
 from tkinter import *
 from tkinter import messagebox
 from tkinter.ttk import Notebook
+from PasswordGenerator import *
+
 TEAL="#76ABAE"
 BEIGE="#F9E8C9"
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
+#TODO: CREAMOS FUNCION QUE CREARA NUESTRAS PASSWORDS AL OPRIMIR EL BOTON "generate password"
+#funcion que llama a la funcion password_create del archivo PasswordGenerator.py
+def call_password_create():
+    
+    #imprime con exito nuestra password
+    print(password_create())
 
+    #insertaremos nuestra password en el password entry
+    password_entry.insert(0, password_create())
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 #TODO: ALMACENAR LA INFORMACION INGRESADA POR EL USUARIO EN UN ARCHIVO TXT.file
 def save_data():
@@ -38,9 +48,7 @@ def save_data():
             #mensaje indicando al usuario que la informacion fue guardada con exito
             messagebox.showinfo("showinfo", "Information added correctly" )
         
-        
-        
-    
+            
 # ---------------------------- UI SETUP ------------------------------- #
 #TODO: CONFIGURACION INICIAL DE LA VENTANA
 window=Tk()
@@ -117,7 +125,7 @@ password_entry.grid(row=3, column=1)
 
 
 #Boton generate password y add
-generate_password_button=Button(frame1, text='Generate Password', relief=GROOVE, bg=BEIGE)
+generate_password_button=Button(frame1, text='Generate Password', relief=GROOVE, bg=BEIGE, command=call_password_create)
 generate_password_button.grid(row=3, column=2)
 
 add_button=Button(frame1, text='Add', width=43, relief=GROOVE, bg="white", command=save_data)
