@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
+from tkinter.simpledialog import askstring
 from tkinter.ttk import Notebook
 from PasswordGenerator import *
 from decrypt import *
@@ -9,8 +10,13 @@ import pyperclip
 
 TEAL="#76ABAE"
 BEIGE="#F9E8C9"
+PINK='#FFCAD4'
 # Número de posiciones que se desplaza las letras y asignar su respuesta a constante llamada SHIFT.  
 SHIFT=220#es como un codigo secreto para encryptar nuestros passwords
+#contrasena secreta que se usa para poder obtener nuestras passwords del data.txt
+SECRET_PASSWORD='mamaypapa'
+
+
 
 # ------------------------------CALL PASSWORD-----------------------------------------
 #TODO: LLAMAR O BUSCAR UNA PASSWORD ESPECIFICA DENTRO DE NUESTRO ARCHIVO .TXT file
@@ -21,15 +27,25 @@ def search_password():
         #retornamos todas las lineas en el archivo como una lista
         file_as_a_list = file.readlines()
         
+        
         # Obtenemos la entrada del usuario y la convertimos a minúsculas
         data_to_search = website_entry_2.get().lower()
+        
         
         # Inicializamos una variable para verificar si encontramos el elemento
         element_found=False
         
+        
+        #variable que se modificara si la contraseña　ingresada es correcta
+        secret_password_correct=False
+        
+        
         for i in file_as_a_list:
             # Si los datos a buscar están en la línea actual
             if data_to_search   in i:
+                # Marcamos que encontramos el elemento
+                element_found=True
+                
                 
                 # Limpiamos la línea removiendo el caracter "|"
                 i_clean=i.replace("|","")
@@ -44,7 +60,8 @@ def search_password():
                 email_name=i_as_a_list[1]
                 password_name=i_as_a_list[2]
                 
-                #TODO: DESCIFRAREMOS LA CONTRASEÑA    
+                
+                #TODO: DESCIFRAREMOS LA CONTRASEÑA GUARDADA EN 'data.txt'   
                 # Número de posiciones que se desplaza las letras y asignar su respuesta a una variable llamada shift.  
                 shift = SHIFT
                 #modificamos el 'SHIFT' para que no importa el numero que se escoja pueda correr y no muestre error "item out of   Range" 
@@ -60,18 +77,38 @@ def search_password():
                 password_name_decrypted=decrypt(text, shift)
                 
                 
-                #insertamos la informacion encontrada en los entry para que el usuario la pueda ver
-                # website_entry_2.insert(0, website_name)
-                email_entry_2.insert(0, email_name)
-                password_entry_2.insert(0, password_name_decrypted)
+                #secret password para mostrar las contrasenas guardadas
+                ask_secret_password=askstring(title='secret password', prompt='Introduce the secret password')
                 
                 
-                # Marcamos que encontramos el elemento
-                element_found=True
+                if ask_secret_password==SECRET_PASSWORD:
+                
+                    #insertamos la informacion encontrada en los entry para que el usuario la pueda ver
+                    # website_entry_2.insert(0, website_name)
+                    email_entry_2.insert(0, email_name)
+                    password_entry_2.insert(0, password_name_decrypted)
+            
+                    
+                    #poniendo True indicamos que la contrasena fue correcta
+                    secret_password_correct=True
+                
+                
+                #si la contrasena secreta no fue correcta
+                else:    
+                    messagebox.showerror(title='opps', message="Your secret password is incorrect")
+                    
+        # Si no encontramos el elemento, mostramos un mensaje indicando que no se encontró   
+        if element_found==False: 
+           messagebox.showinfo("showinfo", 'Element not found') 
+           
+           
+        # #si la contrasena secreta no fue correcta se mostrara este mensaje, sin mostrar el msj de 'element no found'     
+        # elif element_found==False and secret_password_correct==False:
+        #     messagebox.showerror(title='opps', message="Your secret password is incorrect")
+            
+            
         
-        # Si no encontramos el elemento, mostramos un mensaje indicando que no se encontró
-        if element_found==False:    
-            messagebox.showinfo("showinfo", 'Element not found') 
+         
                   
             
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
@@ -155,7 +192,15 @@ def save_data():
             #mensaje indicando al usuario que la informacion fue guardada con exito
             messagebox.showinfo("showinfo", "Information added correctly" )
         
-            
+  
+#funcion para limpiar las casillas de nuestra window2
+def clean():  
+    # Borrando los datos ingresados en los campos de entrada
+    email_entry_2.delete(0,END)
+    website_entry_2.delete(0, END)
+    password_entry_2.delete(0, END)    
+    
+    
 # ---------------------------- UI SETUP ------------------------------- #
 #TODO: CONFIGURACION INICIAL DE LA VENTANA
 window=Tk()
@@ -284,4 +329,8 @@ password_entry_2.grid(row=3, column=1, columnspan=2)
 #Botones
 search_button=Button(frame2, text='Search', width=43, relief=GROOVE, bg=BEIGE, command=search_password)
 search_button.grid(row=4, column=1, columnspan=2 )
+
+
+clean_button=Button(frame2, text='Clean', width=43, relief=GROOVE, bg=PINK, command=clean)
+clean_button.grid(row=5, column=1, columnspan=2, pady=5 )
 window.mainloop()
