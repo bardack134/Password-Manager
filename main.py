@@ -16,27 +16,42 @@ def search_password():
         #retornamos todas las lineas en el archivo como una lista
         file_as_a_list = file.readlines()
         
+        # Obtenemos la entrada del usuario y la convertimos a minúsculas
         data_to_search = website_entry.get().lower()
         
+        # Inicializamos una variable para verificar si encontramos el elemento
         element_found=False
+        
         for i in file_as_a_list:
+            # Si los datos a buscar están en la línea actual
             if data_to_search   in i:
-
+                
+                # Limpiamos la línea removiendo el caracter "|"
                 i_clean=i.replace("|","")
                 
+                
+                # Convertimos la línea limpia en una lista
                 i_as_a_list=i_clean.split()
                 
-                # print(i_as_a_list)
+                
+                # Extraemos el nombre del sitio web, el correo electrónico y la contraseña
                 website_name=i_as_a_list[0]
                 email_name=i_as_a_list[1]
                 password_name=i_as_a_list[2]
                 
+                
+                # Creamos la información a mostrar
                 information=f'Website:{website_name}\n Email:{email_name}\n Password:{password_name}'
                 
+                
+                # Mostramos la información en un cuadro de mensaje
                 messagebox.showinfo("showinfo", information) 
 
+                
+                # Marcamos que encontramos el elemento
                 element_found=True
         
+        # Si no encontramos el elemento, mostramos un mensaje indicando que no se encontró
         if element_found==False:    
             messagebox.showinfo("showinfo", 'Element not found') 
                   
@@ -46,11 +61,9 @@ def search_password():
 #funcion que llama a la funcion password_create del archivo PasswordGenerator.py
 def call_password_create():
     
-    #imprime con exito nuestra password
-    # print(password_create())
-
     #insertaremos nuestra password en el password entry
     password_entry.insert(0, password_create())
+    
     
     #funcion para copiar automaticamente la password generada
     pyperclip.copy(password_create())
@@ -63,10 +76,12 @@ def save_data():
     website_data=website_entry.get().lower()
     email_data=email_entry.get()
     password_data=password_entry.get()
-    
+        
+        
     #puedepasar que el usuario no ha ingresado informacion, miramos si el usuario ingreso o no informacion
     if len(website_data)==0 or len(email_data)==0 or len(password_data)==0:
         messagebox.showerror(title='opps', message="Please do not leave any fields empty")
+    
     
     #es decir el usuario si ingreso informacion
     else:
@@ -75,15 +90,19 @@ def save_data():
         
         
         if yes_or_not == True:
+            
             #abrimos el archivo donde vamos aguardar nuestras passwords, si el archivo no esta, se crea automaticamente
             with open("data.txt", "a") as file:
+                
                 # Creando una cadena de texto con los datos para guardar
                 data_to_Save=(website_data + " | " + email_data+ " | " + password_data)
                 file.write(data_to_Save + "\n")
 
+
             # Borrando los datos ingresados en los campos de entrada
             website_entry.delete(0, END)
             password_entry.delete(0, END)
+            
             
             #mensaje indicando al usuario que la informacion fue guardada con exito
             messagebox.showinfo("showinfo", "Information added correctly" )
