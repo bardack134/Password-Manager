@@ -2,11 +2,14 @@ from tkinter import *
 from tkinter import messagebox
 from tkinter.ttk import Notebook
 from PasswordGenerator import *
+from encrypt import *
 #modulo utilizado para copiar automaticamente el la password generada
 import pyperclip
 
 TEAL="#76ABAE"
 BEIGE="#F9E8C9"
+# Número de posiciones que se desplaza las letras y asignar su respuesta a constante llamada SHIFT.  
+SHIFT=220#es como un codigo secreto para encryptar nuestros passwords
 
 # ------------------------------CALL PASSWORD-----------------------------------------
 #TODO: LLAMAR O BUSCAR UNA PASSWORD ESPECIFICA DENTRO DE NUESTRO ARCHIVO .TXT file
@@ -75,7 +78,22 @@ def save_data():
     email_data=email_entry.get()
     password_data=password_entry.get()
         
+             
+    #TODO: ENCRYPTAREMOS LA PASSWORD    
+    # Número de posiciones que se desplaza las letras y asignar su respuesta a una variable llamada shift.  
+    shift = SHIFT
+    #modificamos el 'SHIFT' para que no importa el numero que se escoja pueda correr y no muestre error "item out of   Range" 
+    # porque da un valor posicional de la lista mayor a la cantidad de items en nuestra lista 
+    shift = shift % 27    
         
+    #guardamos la password en una variable llamada text, que recibe nuestra funcion encrypt    
+    text=password_data
+
+    
+    #llamamos a la funcion de encryptar y guardamos password encryptado en una nueva variable
+    password_data_escrypted=encrypt(text, shift)
+    
+    
     #puedepasar que el usuario no ha ingresado informacion, miramos si el usuario ingreso o no informacion
     if len(website_data)==0 or len(email_data)==0 or len(password_data)==0:
         messagebox.showerror(title='opps', message="Please do not leave any fields empty")
@@ -93,7 +111,7 @@ def save_data():
             with open("data.txt", "a") as file:
                 
                 # Creando una cadena de texto con los datos para guardar
-                data_to_Save=(website_data + " | " + email_data+ " | " + password_data)
+                data_to_Save=(website_data + " | " + email_data+ " | " + password_data_escrypted)
                 file.write(data_to_Save + "\n")
 
 
@@ -194,6 +212,7 @@ add_button=Button(frame1, text='Add', width=43, relief=GROOVE, bg="white", comma
 add_button.grid(row=4, column=1, columnspan=2)
 
 
+# ---------------------------------SECOND WINDOW ----------------------------------------------------------------
 #TODO: CREAMOS NUESTRA SEGUNDA VENTANA PARA QUE EL USUARIO BUSQUE SUS PASSWORDS
 #highlightthickness remove the light grey border around my Canvas widget?
 canvas_2=Canvas(frame2, width=200, height=200,  bg="white",  highlightthickness=0)
