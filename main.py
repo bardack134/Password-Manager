@@ -2,25 +2,63 @@ from tkinter import *
 from tkinter import messagebox
 from tkinter.ttk import Notebook
 from PasswordGenerator import *
+#modulo utilizado para copiar automaticamente el la password generada
+import pyperclip
 
 TEAL="#76ABAE"
 BEIGE="#F9E8C9"
 
+# ------------------------------CALL PASSWORD-----------------------------------------
+#TODO: LLAMAR O BUSCAR UNA PASSWORD ESPECIFICA DENTRO DE NUESTRO ARCHIVO .TXT file
+def search_password():
+    #llamamos al archivo que tiene guardada nuestras password
+    with open('data.txt', 'r') as file:
+        #retornamos todas las lineas en el archivo como una lista
+        file_as_a_list = file.readlines()
+        
+        data_to_search = website_entry.get().lower()
+        
+        
+        for i in file_as_a_list:
+            if data_to_search   in i:
+
+                i_clean=i.replace("|","")
+                
+                i_as_a_list=i_clean.split()
+                
+                # print(i_as_a_list)
+                website_name=i_as_a_list[0]
+                email_name=i_as_a_list[1]
+                password_name=i_as_a_list[2]
+                
+                information=f'Website:{website_name}\n Email:{email_name}\n Password:{password_name}'
+                
+                messagebox.showinfo("showinfo", information) 
+               
+            else:
+                messagebox.showinfo("showinfo", 'Element not found') 
+                
+            
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 #TODO: CREAMOS FUNCION QUE CREARA NUESTRAS PASSWORDS AL OPRIMIR EL BOTON "generate password"
 #funcion que llama a la funcion password_create del archivo PasswordGenerator.py
 def call_password_create():
     
     #imprime con exito nuestra password
-    print(password_create())
+    # print(password_create())
 
     #insertaremos nuestra password en el password entry
     password_entry.insert(0, password_create())
+    
+    #funcion para copiar automaticamente la password generada
+    pyperclip.copy(password_create())
+    
+    
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 #TODO: ALMACENAR LA INFORMACION INGRESADA POR EL USUARIO EN UN ARCHIVO TXT.file
 def save_data():
     # Obteniendo los datos ingresados por el usuario
-    website_data=website_entry.get()
+    website_data=website_entry.get().lower()
     email_data=email_entry.get()
     password_data=password_entry.get()
     
@@ -110,8 +148,8 @@ password_label.grid(row=3, column=0)
 
 
 #entry widgets para cada label
-website_entry=Entry(frame1,  width=50, relief=SOLID)
-website_entry.grid(row=1, column=1, columnspan=2)
+website_entry=Entry(frame1,  width=32, relief=SOLID)
+website_entry.grid(row=1, column=1)
 #establesiendo el foco en nuestro website_entry, es decir al arrancar la app, el mause aparece inmediatamente ahi
 website_entry.focus()
 
@@ -124,12 +162,14 @@ password_entry=Entry(frame1,  width=32, relief=SOLID)
 password_entry.grid(row=3, column=1)
 
 
-#Boton generate password y add
+#Boton generate password, add, search
 generate_password_button=Button(frame1, text='Generate Password', relief=GROOVE, bg=BEIGE, command=call_password_create)
 generate_password_button.grid(row=3, column=2)
 
 add_button=Button(frame1, text='Add', width=43, relief=GROOVE, bg="white", command=save_data)
 add_button.grid(row=4, column=1, columnspan=2)
 
+search_button=Button(frame1, text='Search', width=13, relief=GROOVE, bg=BEIGE, command=search_password)
+search_button.grid(row=1, column=2 )
 
 window.mainloop()
