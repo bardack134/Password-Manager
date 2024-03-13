@@ -112,27 +112,28 @@ def save_data():
 #TODO: CONFIGURACION INICIAL DE LA VENTANA
 window=Tk()
 window.config(padx=5, pady=5, bg=TEAL)
-
-#titulo para nuestra ventana
-window.title('Password Manager') 
+window.title('Password Manager') #titulo para nuestra ventana
 
 
 #TODO:QUIERO QUE MI APP TENGA 2 TABS POR ESO USARE EL WIDGET NOTEBOOK
-
 notebook=Notebook(window)
+
 
 #pongo el widget Notebook dentro de mi ventana "window"
 notebook.pack(padx = 5, pady = 5, expand = True)
+
 
 #frame de mi primera tab, creo el frame en mi "Notebook"
 frame1=Frame(notebook,   padx=50, pady=50,  bg="white")
 #Empaqueto 'frame1' para que se expanda y llene todo el espacio disponible
 frame1.pack(fill= BOTH, expand=True)
 
+
 #  Creo un segundo Frame llamado 'frame2' en el notebook
 frame2=Frame(notebook)
 # Empaquetar 'frame2' para que se expanda y llene todo el espacio disponible
 frame2.pack(fill= BOTH, expand=True)
+
 
 # El método 'add' es específico de la clase Notebook en el módulo ttk de Tkinter. Se utiliza para añadir un marco como una nueva pestaña en el 
 # notebook. El argumento text proporciona la etiqueta que se mostrará para esa pestaña en la interfaz de usuario.
@@ -146,8 +147,10 @@ notebook.add(frame2, text = "Window 2")
 canvas=Canvas(frame1, width=200, height=200,  bg="white",  highlightthickness=0)
 canvas.grid(row=0, column=1)
 
+
 #cargando imagen
 filename=PhotoImage(file="logo.png")
+
 
 #creamos la imagen en nuestra ventana, definimos la posicion 'x' y 'y' 100 respectivamente
 imagen=canvas.create_image(100, 100, image=filename)
@@ -158,39 +161,46 @@ imagen=canvas.create_image(100, 100, image=filename)
 website_label=Label(frame1, text='Website:',  bg="white", pady=5, font=('helvetica', 12))
 website_label.grid(row=1, column=0)
 
+
 Email_label=Label(frame1, text='Email/Username:',  bg="white", pady=5, font=('helvetica', 12))
 Email_label.grid(row=2, column=0)
+
 
 password_label=Label(frame1, text='Password:',  bg="white", pady=5,  font=('helvetica', 12))
 password_label.grid(row=3, column=0)
 
 
 #VARIABLES DONDE SE ALMACENARA LOS DATOS INGRESADOS POR EL USUARIO
-
-
 #entry widgets para cada label
 website_entry=Entry(frame1,  width=32, relief=SOLID)
 website_entry.grid(row=1, column=1)
 #establesiendo el foco en nuestro website_entry, es decir al arrancar la app, el mause aparece inmediatamente ahi
 website_entry.focus()
 
+
 email_entry=Entry(frame1,  width=50, relief=SOLID)
 email_entry.grid(row=2, column=1, columnspan=2)
 #insertamos el sgt msj en el widget 'email_entry' para que se muestre apenas corre el programa
 email_entry.insert(0,'@gmail.com')
 
+
 password_entry=Entry(frame1,  width=32, relief=SOLID)
 password_entry.grid(row=3, column=1)
 
 
-#Boton generate password, add, search
+#BOTON GENERATE PASSWORD, ADD, SEARCH
 generate_password_button=Button(frame1, text='Generate Password', relief=GROOVE, bg=BEIGE, command=call_password_create)
 generate_password_button.grid(row=3, column=2)
+
 
 add_button=Button(frame1, text='Add', width=43, relief=GROOVE, bg="white", command=save_data)
 add_button.grid(row=4, column=1, columnspan=2)
 
+
 search_button=Button(frame1, text='Search', width=13, relief=GROOVE, bg=BEIGE, command=search_password)
 search_button.grid(row=1, column=2 )
+
+
+#TODO: CREAMOS NUESTRA SEGUNDA VENTANA PARA QUE EL USUARIO BUSQUE SUS PASSWORDS
 
 window.mainloop()
