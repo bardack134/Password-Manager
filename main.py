@@ -17,7 +17,7 @@ def search_password():
         file_as_a_list = file.readlines()
         
         # Obtenemos la entrada del usuario y la convertimos a minúsculas
-        data_to_search = website_entry.get().lower()
+        data_to_search = website_entry_2.get().lower()
         
         # Inicializamos una variable para verificar si encontramos el elemento
         element_found=False
@@ -35,18 +35,16 @@ def search_password():
                 
                 
                 # Extraemos el nombre del sitio web, el correo electrónico y la contraseña
-                website_name=i_as_a_list[0]
+                # website_name=i_as_a_list[0]
                 email_name=i_as_a_list[1]
                 password_name=i_as_a_list[2]
                 
                 
-                # Creamos la información a mostrar
-                information=f'Website:{website_name}\n Email:{email_name}\n Password:{password_name}'
+                #insertamos la informacion encontrada en los entry para que el usuario la pueda ver
+                # website_entry_2.insert(0, website_name)
+                email_entry_2.insert(0, email_name)
+                password_entry_2.insert(0, password_name)
                 
-                
-                # Mostramos la información en un cuadro de mensaje
-                messagebox.showinfo("showinfo", information) 
-
                 
                 # Marcamos que encontramos el elemento
                 element_found=True
@@ -130,7 +128,7 @@ frame1.pack(fill= BOTH, expand=True)
 
 
 #  Creo un segundo Frame llamado 'frame2' en el notebook
-frame2=Frame(notebook)
+frame2=Frame(notebook, padx=50, pady=50, bg='white')
 # Empaquetar 'frame2' para que se expanda y llene todo el espacio disponible
 frame2.pack(fill= BOTH, expand=True)
 
@@ -156,7 +154,7 @@ filename=PhotoImage(file="logo.png")
 imagen=canvas.create_image(100, 100, image=filename)
 
 
-#TODO: CREANDO DEMAS ELEMTOS DE NUESTRA APP "LABELS WIDGET, ENTRY WIDGET" 
+#TODO: CREANDO DEMAS ELEMTOS DE NUESTRA APP "LABELS WIDGET, ENTRY WIDGET, PARA NUESTRA PRIMERA VENTANA" 
 #labels "website, email, password"
 website_label=Label(frame1, text='Website:',  bg="white", pady=5, font=('helvetica', 12))
 website_label.grid(row=1, column=0)
@@ -170,25 +168,24 @@ password_label=Label(frame1, text='Password:',  bg="white", pady=5,  font=('helv
 password_label.grid(row=3, column=0)
 
 
-#VARIABLES DONDE SE ALMACENARA LOS DATOS INGRESADOS POR EL USUARIO
+#VARIABLES DONDE SE ALMACENARA LOS DATOS INGRESADOS POR EL USUARIO WINDOW 1
 #entry widgets para cada label
-website_entry=Entry(frame1,  width=32, relief=SOLID)
-website_entry.grid(row=1, column=1)
+website_entry=Entry(frame1,  width=50, relief=SOLID)
+website_entry.grid(row=1, column=1, columnspan=2)
 #establesiendo el foco en nuestro website_entry, es decir al arrancar la app, el mause aparece inmediatamente ahi
 website_entry.focus()
 
 
 email_entry=Entry(frame1,  width=50, relief=SOLID)
 email_entry.grid(row=2, column=1, columnspan=2)
-#insertamos el sgt msj en el widget 'email_entry' para que se muestre apenas corre el programa
-email_entry.insert(0,'@gmail.com')
+email_entry.insert(0,'@gmail.com') #insertamos el sgt msj en el widget 'email_entry' para que se muestre apenas corre el programa
 
 
 password_entry=Entry(frame1,  width=32, relief=SOLID)
 password_entry.grid(row=3, column=1)
 
 
-#BOTON GENERATE PASSWORD, ADD, SEARCH
+#BOTON GENERATE PASSWORD, ADD, SEARCH  WINDOW 1
 generate_password_button=Button(frame1, text='Generate Password', relief=GROOVE, bg=BEIGE, command=call_password_create)
 generate_password_button.grid(row=3, column=2)
 
@@ -197,10 +194,43 @@ add_button=Button(frame1, text='Add', width=43, relief=GROOVE, bg="white", comma
 add_button.grid(row=4, column=1, columnspan=2)
 
 
-search_button=Button(frame1, text='Search', width=13, relief=GROOVE, bg=BEIGE, command=search_password)
-search_button.grid(row=1, column=2 )
-
-
 #TODO: CREAMOS NUESTRA SEGUNDA VENTANA PARA QUE EL USUARIO BUSQUE SUS PASSWORDS
+#highlightthickness remove the light grey border around my Canvas widget?
+canvas_2=Canvas(frame2, width=200, height=200,  bg="white",  highlightthickness=0)
+canvas_2.grid(row=0, column=1)
 
+
+#creamos la imagen en nuestra ventana, en el segundo canvas, del frame 2
+imagen=canvas_2.create_image(100, 100, image=filename)
+
+
+#labels "website, email, password de nuestra  window2"
+website_label_2=Label(frame2, text='Website:',  bg="white", pady=5, font=('helvetica', 12))
+website_label_2.grid(row=1, column=0)
+
+
+Email_label_2=Label(frame2, text='Email/Username:',  bg="white", pady=5, font=('helvetica', 12))
+Email_label_2.grid(row=2, column=0)
+
+
+password_label_2=Label(frame2, text='Password:',  bg="white", pady=5,  font=('helvetica', 12))
+password_label_2.grid(row=3, column=0)
+
+
+#entry widgets para cada label
+website_entry_2=Entry(frame2, width=50, relief=SOLID)
+website_entry_2.grid(row=1, column=1,  columnspan=2)
+
+
+email_entry_2=Entry(frame2, width=50, relief=SOLID)
+email_entry_2.grid(row=2, column=1, columnspan=2)
+
+
+password_entry_2=Entry(frame2, width=50, relief=SOLID)
+password_entry_2.grid(row=3, column=1, columnspan=2)
+
+
+#Botones
+search_button=Button(frame2, text='Search', width=43, relief=GROOVE, bg=BEIGE, command=search_password)
+search_button.grid(row=4, column=1, columnspan=2 )
 window.mainloop()
