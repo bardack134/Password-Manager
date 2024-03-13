@@ -50,3 +50,5 @@ def decrypt(text, shift):
     
     # Imprimir el mensaje desencriptado
     print(f"secret code is '{secret_code_string}'")
+    
+    return secret_code_string

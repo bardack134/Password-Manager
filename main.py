@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 from tkinter.ttk import Notebook
 from PasswordGenerator import *
+from decrypt import *
 from encrypt import *
 #modulo utilizado para copiar automaticamente el la password generada
 import pyperclip
@@ -13,7 +14,8 @@ SHIFT=220#es como un codigo secreto para encryptar nuestros passwords
 
 # ------------------------------CALL PASSWORD-----------------------------------------
 #TODO: LLAMAR O BUSCAR UNA PASSWORD ESPECIFICA DENTRO DE NUESTRO ARCHIVO .TXT file
-def search_password():
+def search_password():  
+   
     #llamamos al archivo que tiene guardada nuestras password
     with open('data.txt', 'r') as file:
         #retornamos todas las lineas en el archivo como una lista
@@ -42,11 +44,26 @@ def search_password():
                 email_name=i_as_a_list[1]
                 password_name=i_as_a_list[2]
                 
+                #TODO: DESCIFRAREMOS LA CONTRASEÑA    
+                # Número de posiciones que se desplaza las letras y asignar su respuesta a una variable llamada shift.  
+                shift = SHIFT
+                #modificamos el 'SHIFT' para que no importa el numero que se escoja pueda correr y no muestre error "item out of   Range" 
+                # porque da un valor posicional de la lista mayor a la cantidad de items en nuestra lista 
+                shift = shift % 27   
+                
+                
+                #guardamos la password en una variable llamada text, que recibe nuestra funcion decrypt 
+                text=password_name
+                
+                
+                #Llamamos a la funcion que decifra o descodifica nuestra password y la guardamos en una variable
+                password_name_decrypted=decrypt(text, shift)
+                
                 
                 #insertamos la informacion encontrada en los entry para que el usuario la pueda ver
                 # website_entry_2.insert(0, website_name)
                 email_entry_2.insert(0, email_name)
-                password_entry_2.insert(0, password_name)
+                password_entry_2.insert(0, password_name_decrypted)
                 
                 
                 # Marcamos que encontramos el elemento
@@ -62,8 +79,23 @@ def search_password():
 #funcion que llama a la funcion password_create del archivo PasswordGenerator.py
 def call_password_create():
     
+    #TODO: VAMOS A CODIFICAR EL PASSWORD GENERADO POR NUESTRA FUNCION
+    # Número de posiciones que se desplaza las letras y asignar su respuesta a una variable llamada shift.  
+    shift = SHIFT
+    #modificamos el 'SHIFT' para que no importa el numero que se escoja pueda correr y no muestre error "item out of   Range" 
+    # porque da un valor posicional de la lista mayor a la cantidad de items en nuestra lista 
+    shift = shift % 27   
+    
+    
+    #guardamos la password en una variable llamada text, que recibe nuestra funcion decrypt 
+    text=password_create()
+    
+    
+    #llamamos a la funcion de encryptar y guardamos password encryptado en una nueva variable
+    password_create_encrypted=encrypt(text, shift)
+    
     #insertaremos nuestra password en el password entry
-    password_entry.insert(0, password_create())
+    password_entry.insert(0, password_create_encrypted)
     
     
     #funcion para copiar automaticamente la password generada
@@ -91,7 +123,7 @@ def save_data():
 
     
     #llamamos a la funcion de encryptar y guardamos password encryptado en una nueva variable
-    password_data_escrypted=encrypt(text, shift)
+    password_data_encrypted=encrypt(text, shift)
     
     
     #puedepasar que el usuario no ha ingresado informacion, miramos si el usuario ingreso o no informacion
@@ -111,7 +143,7 @@ def save_data():
             with open("data.txt", "a") as file:
                 
                 # Creando una cadena de texto con los datos para guardar
-                data_to_Save=(website_data + " | " + email_data+ " | " + password_data_escrypted)
+                data_to_Save=(website_data + " | " + email_data+ " | " + password_data_encrypted)
                 file.write(data_to_Save + "\n")
 
 
